@@ -1,0 +1,48 @@
+<IfModule mod_rewrite.c>
+	
+	RewriteEngine On
+	
+	RewriteCond %{REQUEST_FILENAME} !-d 
+	RewriteCond %{REQUEST_FILENAME}\.php -f 
+	RewriteRule ^(.*)/?$ $1.php [NC]
+	
+	RewriteRule ^settings/roles?$ roles.php [NC]
+	RewriteRule ^settings/create/role?$ manage_role.php [NC]
+	
+
+	RewriteRule ^view/(.*)/([0-9]+)/?$ user_profile.php?name=$1&id=$2 [NC]
+
+	RewriteRule ^report/(.*)/([0-9]+)/([0-9]+)/([0-9]+)/([0-9]+)/(.*)/?$ week_report.php?month=$1&year=$2&week=$3&id=$4&subId=$5&name=$6 [NC]
+ 	RewriteRule ^report/(.*)/([0-9]+)/([0-9]+)/([0-9]+)/?$ week_report.php?month=$1&year=$2&week=$3&id=$4 [NC,L]
+
+ 	RewriteRule ^settings/account/profile/?$ profile.php [NC]
+	RewriteRule ^settings/account/password/?$ password.php [NC]
+
+	RewriteRule ^user/create/?$ manage_user.php [NC]
+	RewriteRule ^user/edit/([0-9]+)/?$ manage_user.php?id=$1 [NC]
+	
+	RewriteRule ^task/create/?$ manage_task.php [NC]
+	RewriteRule ^task/([0-9]+)/(.*)/?$ view_task.php?id=$1&title=$2 [NC]
+
+	
+	RewriteRule ^report/create/?$ manage_report.php [NC]
+	
+	
+	RewriteRule ^delete/(.*)/([0-9]+)/?$ delete/delete.php?table=$1&id=$2 [NC]
+	
+
+	## Restrict access to any folders ##
+	ErrorDocument 404 /kedco/page-not-found.php
+	
+	RewriteRule ^controllers/$ page-not-found.php [L]
+	RewriteRule ^css/?$ reg.php [L]
+	RewriteRule ^fonts/?$ page-not-found.php [L]
+	RewriteRule ^img/?$ page-not-found.php [L]
+	RewriteRule ^includes/$ page-not-found.php [L]
+	RewriteRule ^js/?$ page-not-found.php [L]
+	RewriteRule ^models/?$ page-not-found.php [L]
+
+	RewriteCond %{HTTP_HOST} ^stetis\.com [NC]
+	RewriteCond %{SERVER_PORT} 80 
+	RewriteRule ^(.*)$ http://www.stetis.com/$1 [L,R=301]
+</IfModule>
